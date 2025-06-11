@@ -1,0 +1,41 @@
+.pkm_img{
+    width:50%
+}
+
+.pkm_stats_modal{
+    width:100%
+}
+
+.box {
+    width: 100%;
+}
+
+th {
+    text-align: center;
+}
+tbody {
+    scrollbar-width: none;
+}
+abbr{
+    text-decoration: none;
+}
+.hidden {
+    display: none;
+}
+
+.close, .fa-trash, .fa-pencil {
+    cursor: pointer;
+}
+
+.pokemon-team-card {
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.pkm_img {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+.pokemon-card:hover .pkm_img {
+    transform: scale(1.1);
+}

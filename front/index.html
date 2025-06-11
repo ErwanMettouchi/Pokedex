@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Meta -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Title -->
+  <title>Pokedex</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg width='24px' height='24px' stroke-width='1.5' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg' color='%23000000'%3E%3Cpath d='M3 3.6V20.4C3 20.7314 3.26863 21 3.6 21H20.4C20.7314 21 21 20.7314 21 20.4V3.6C21 3.26863 20.7314 3 20.4 3H3.6C3.26863 3 3 3.26863 3 3.6Z' stroke='%23000000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3C/path%3E%3Cpath d='M6 6L6 16' stroke='%23000000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3C/path%3E%3Cpath d='M10 6V9' stroke='%23000000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3C/path%3E%3Cpath d='M14 6V13' stroke='%23000000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3C/path%3E%3Cpath d='M18 6V11' stroke='%23000000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3C/path%3E%3C/svg%3E" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Bulma CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css" />
+
+  <!-- Custom CSS-->
+  <link rel="stylesheet" href="./integration/assets/css/style.css" />
+
+</head>
+
+<body>
+  <header class="my-5 my-6">
+    <h1 class="title has-text-centered is-1">Pokedex</h1>
+    <nav class="navbar is-flex is-justify-content-space-evenly" id="navbar_main" role="navigation" aria-label="main navigation">
+      <a class="navbar-item back-to-home" id="nav-item-home"> Home </a>
+      <a class="navbar-item" id="nav-item-type"> Types </a>
+      <a class="navbar-item" id="nav-item-team"> Teams </a>
+      <a class="navbar-item" id="nav-item-leaderboard"> Leaderboard </a>
+      <a class="navbar-item" id="nav-item-add-team"> Add Team </a>
+      <div class="field has-addons">
+        <div class="control">
+            <input class="input" type="text" id="search-bar" placeholder="Rechercher un Pokémon...">
+        </div>
+        <div class="control">
+            <button class="button is-info">
+                <span class="icon">
+                    <i class="fas fa-search"></i> <!-- Icône de loupe -->
+                </span>
+            </button>
+        </div>
+    </div>
+    </nav>
+  </header>
+
+  <main id="app" class="container is-flex is-align-items-center is-justify-content-center is-flex-wrap-wrap my-6">
+
+
+    <!-- LIST TYPES -->
+    <div class="types-container is-flex is-align-item-center is-flex-wrap-wrap is-justify-content-space-evenly my-6">
+    </div>
+
+    <!-- LIST POKEMON -->
+    <div class="pokemons-container is-flex is-align-item-center is-flex-wrap-wrap is-justify-content-space-evenly my-6 gap-5">
+    </div>
+
+    <!-- LIST TEAMS -->
+    <div class="teams-container is-flex is-flex-wrap-wrap is-justify-content-space-center my-6">
+    </div>
+
+    <!-- LIST 404 -->
+    <div class="container-404 is-flex is-flex-wrap-wrap is-justify-content-space-center my-6">
+    </div>
+
+    <!-- LIST POKEMON NON TROUVE -->
+    <div class="no-pokemon-found-container is-flex is-flex-wrap-wrap is-justify-content-space-center my-6">
+    </div>
+
+
+    <!-- TEMPLATE POKEMON -->
+    <template id="pokemon-template">
+      <div class="card mb-6 has-text-centered pt-4 my-6 pokemon-card is-col-min-1">
+        <a>
+          <div class="card-image">
+            <img class="pkm_img" src="IMAGE DU POKEMON" />
+          </div>
+          <div class="card-content">
+            <p>NOM_DU_POKEMON</p>
+            <p id="votes" class="has-text-danger">NOMBRE_DE_VOTES</p>
+          </div>
+        </a>
+      </div>
+    </template>
+
+
+    <!-- TEMPLATE TYPE POKEMON -->
+    <template id="type-template">
+      <div class="type-card">
+        <div class="is-flex is-justify-content-center" to-highlight>
+          <button class="button is-flex-grow-1 mx-2 type-button">NOM_DU_TYPE</button>
+        </div>
+      </div>
+    </template>
+
+
+    <!-- TEMPLATE TEAM POKEMON -->
+    <template id="team-template">
+      <section class="container has-text-centered team-card box" to-highlight>
+        <div class="mb-1">
+          <h2 class="team-name title title-name">My Great Team</h2>
+          <p class="team-description subtitle my-6 title-description">Description of My Great Team</p>
+        </div>
+
+        <div class="imgContainer is-flex is-align-item-center is-flex-wrap-wrap is-justify-content-space-evenly my-2">
+          <figure class="image is-64x64 mx-2 fig-image-team card pokemon-team-card">
+            <img src="IMAGE_DES_POKEMONS_DE_LA_TEAM" class="is-rounded">
+          </figure>
+        </div>
+        <div class="container btnContainer">
+          <button class="button btnModalTeam">Administrer</button>
+        </div>
+      </section>
+    </template>
+
+    <!-- TEMPLATE 404 -->
+    <template id="template-404">
+      <section class="section full-height">
+        <div class="has-text-centered">
+          <h1 class="title is-size-1 has-text-danger">404</h1>
+          <p class="subtitle is-size-3">Oups ! Ressource non trouvée.</p>
+          <a class="button is-primary back-to-home">Retour à l'accueil</a>
+        </div>
+      </section>
+    </template>
+
+    <!-- TEMPLATE AUCUN POKEMON CORRESPONDANT A CE TYPE -->
+
+    <template id="template-no-pokemon-found">
+      <section class="section full-height is-flex is-flex-direction-column is-justify-content-center is-align-items-center">
+        <div class="has-text-centered">
+          <h1 class="title is-size-1 has-text-danger">Oops!</h1>
+          <p class="subtitle is-size-3">Aucun pokemon correspondant à ce type n'a été trouvé 😞</p>
+        </div>
+      </section>
+    </template>
+
+    <!-- MODAL STATS POKEMON -->
+    <div class="modal" id="pkm_detail">
+      <div class="modal-background close"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <h2 class="modal-card-title pkm_name"></h2>
+          <i class="fa fa-window-close close"></i>
+        </header>
+        <section class="modal-card-body is-flex is-flex-direction-row is-align-content-center is-align-items-center">
+          <div class="mr-4">
+            <img class="pkm_img_modal" />
+          </div>
+          <div class="modal-card-content pkm_stats_modal">
+            <h4 class="mb-4">Statistiques</h4>
+            <p class="modal_team_types"></p>
+            <div>
+              <div class="is-flex is-justify-content-space-start">
+                <div class="">PV:</div>
+                <div class="pokemon-hp ml-1"></div>
+              </div>
+              <progress class="progress is-danger" value max="255" id="pokemon-hp"></progress>
+            </div>
+            <div class="row">
+              <div class="is-flex is-justify-content-space-start">
+                <div class="">Attaque:</div>
+                <div class="pokemon-atk ml-1"></div>
+              </div>
+              <progress class="progress is-danger" value max="255" id="pokemon-atk"></progress>
+            </div>
+            <div class="row">
+              <div class="is-flex is-justify-content-space-start">
+                <div class="">Défense:</div>
+                <div class="pokemon-def ml-1"></div>
+              </div>
+              <progress class="progress is-danger" value max="255" id="pokemon-def"></progress>
+            </div>
+            <div class="row">
+              <div class="is-flex is-justify-content-space-start">
+                <div class="">Attaque Spé:</div>
+                <div class="pokemon-atk_spe ml-1"></div>
+              </div>
+              <progress class="progress is-danger" value max="255" id="pokemon-atk_spe"></progress>
+            </div>
+            <div class="row">
+              <div class="is-flex is-justify-content-space-start">
+                <div class="">Défense Spé:</div>
+                <div class="pokemon-def_spe ml-1"></div>
+              </div>
+              <progress class="progress is-danger" value max="255" id="pokemon-def_spe"></progress>
+            </div>
+            <div class="row">
+              <div class="is-flex is-justify-content-space-start">
+                <div class="">Vitesse:</div>
+                <div class="pokemon-speed ml-1"></div>
+              </div>
+              <progress class="progress is-danger" value max="255" id="pokemon-speed"></progress>
+            </div>
+            <p class="nmb_of_votes">Nombre de votes</p>
+          </div>
+        </section>
+        <footer class="modal-card-foot is-flex">
+          <div class="add_team_container">
+            <form id="form_add_pkm_team">
+              <select class="select select-team" data-team-id="1">
+                <option value="1">Team 1</option>
+                <option value="2">Team 2</option>
+                <option value="3">Team 3</option>
+              </select>
+              <button class="button btn_add_team">Add To Team</button>
+            </form>
+          </div>
+          <div class="buttons">
+            <button class="button close">Retour</button>
+            <button class="vote-btn button">Voter pour ce pokémon</button>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <!-- MODAL AJOUTER UNE TEAM -->
+    <div class="modal" id="add_team_modal">
+      <div class="modal-background close"></div>
+      <div class="modal-content">
+        <header class="modal-card-head">
+          <h2 class="modal-card-title team_name">Ajouter une team</h2>
+          <i class="fa fa-window-close close"></i>
+        </header>
+        <div class="modal-card-body">
+          <form id="form_team_modal">
+            <div class="field" id="field-name">
+              <label class="label">Name</label>
+              <div class="control">
+                <input class="input" type="text" name="name" placeholder="Name of the the team" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Description</label>
+              <div class="control">
+                <input class="input" type="text" name="description" placeholder="Facultatif" />
+              </div>
+            </div>
+            <div class="control">
+              <button class="button is-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+   
+
+    <!-- MODAL TEAM -->
+    <div class="modal" id="team_modal">
+      <div class="modal-background close"></div>
+      <div class="modal-content">
+        <header class="modal-card-head">
+          <h2 class="modal-card-title team_name"></h2>
+          <form class="hidden">
+            <input type="text" name="team_name" class="modal-card-title input_team_name mr-3" />
+          </form>
+          <i class="fa fa-pencil edit mr-3 " id="nav-item-edit-team"></i>
+          <i class="fa fa-window-close close"></i>
+        </header>
+        <div class="modal-card-body">
+          <p class="team_description"></p>
+          <table class="table has-text-centered">
+            <thead>
+              <tr>
+                <th><abbr title="numero">N°</abbr></th>
+                <th><abbr title="name">Name</abbr></th>
+                <th><abbr title="hp">PV</abbr></th>
+                <th><abbr title="atk">Atk</abbr></th>
+                <th><abbr title="def">Def</abbr></th>
+                <th><abbr title="atk_spe">Atk Spe</abbr></th>
+                <th><abbr title="def_spe">Def Spe</abbr></th>
+                <th><abbr title="speed">Vit</abbr></th>
+                <th><abbr title="types">Types</abbr></th>
+                <th><abbr title="options">Options</abbr></th>
+              </tr>
+            </thead>
+            <tbody id="tbody_team">
+              <!-- TODO: A dynamiser -->
+              <tr>
+                <td>1</td>
+                <td>Builbizarre</td>
+                <td>100</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+                <td><i class="fa fa-trash"></i></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Salamèche</td>
+                <td>100</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+                <td>10</td>
+                <td><i class="fa fa-trash"></i></td>
+              </tr>
+              <!-- END A dynamiser  -->
+            </tbody>
+          </table>
+        </div>
+        <footer class="modal-card-foot">
+          <div class="buttons">
+            <button class="button close">Retour</button>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+ <!-- MODAL EDIT TEAM -->
+ <div class="editModal modal" id="edit_team_modal">
+  <div class="modal-background close"></div>
+  <div class="modal-content">
+    <header class="modal-card-head">
+      <h2 class="modal-card-title team_name">Modifier la team</h2>
+      <i class="fa fa-window-close close"></i>
+    </header>
+    <div class="modal-card-body">
+      <form id="form_edit_team_modal">
+        <div class="field" id="field-name-edit">
+          <label class="label">Name</label>
+          <div class="control">
+            <input class="input" type="text" name="name" placeholder="Name of the the team" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Description</label>
+          <div class="control">
+            <input class="input" type="text" name="description" placeholder="Facultatif" />
+          </div>
+        </div>
+        <div class="control">
+          <button class="button is-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+  </main>
+  <script type="module" src="./js/index.js"></script>
+</body>
+
+</html>

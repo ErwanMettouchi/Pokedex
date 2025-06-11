@@ -1,0 +1,47 @@
+###
+GET http://localhost:3000/pokemons
+
+###
+GET http://localhost:3000/pokemons/leaderboard/
+
+###
+GET http://localhost:3000/pokemons/50000
+
+###
+GET http://localhost:3000/pokemons
+
+###
+POST http://localhost:3000/pokemons/77/votes
+
+###
+GET http://localhost:3000/types/1
+
+###
+GET http://localhost:3000/teams/6
+
+###
+POST http://localhost:3000/teams
+Content-Type: application/json
+
+{
+    "name" : "e",
+    "description" : ""
+}
+
+###
+PUT http://localhost:3000/teams/4/pokemons/50
+
+###
+DELETE http://localhost:3000/teams/7/pokemons/6
+
+###
+PATCH http://localhost:3000/teams/6
+Content-Type: application/json
+
+{
+    "name" : "   Team edited 2",
+    "description" : ""
+}
+
+###
+DELETE http://localhost:3000/teams/7

@@ -1,0 +1,13 @@
+{
+  "name": "pokedex-front",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "vite": "^6.2.2"
+  },
+  "dependencies": {
+    "awesomplete": "^1.1.7"
+  }
+}
