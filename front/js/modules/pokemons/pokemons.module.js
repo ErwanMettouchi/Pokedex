@@ -17,7 +17,7 @@ function addPokemonsToDom(pokemon) {
 	const clone = pokemonTemplate.content.cloneNode(true);
 
 	const img = clone.querySelector(".pkm_img");
-	img.setAttribute("src", `../../../integration/assets/img/${pokemon.id}.webp`);
+	img.setAttribute("src", `/img/${pokemon.id}.webp`);
 
 	const card = clone.querySelector(".pokemon-card");
 	card.setAttribute("data-pokemon-id", pokemon.id);
@@ -57,10 +57,7 @@ async function displayPokemonStats(id) {
 
 		const img = pokemonDetailModal.querySelector(".pkm_img_modal");
 
-		img.setAttribute(
-			"src",
-			`../../../integration/assets/img/${pokemon.id}.webp`,
-		);
+		img.setAttribute("src", `/img/${pokemon.id}.webp`);
 
 		// ? Ajoute les stats du pokemon dans la modal
 		document.querySelector(".modal-card-title").textContent = pokemon.name;

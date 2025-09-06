@@ -56,7 +56,7 @@ function addTeamsToDom(team) {
 		figure.setAttribute("data-pokemon-id", pokemon.id);
 
 		const img = document.createElement("img");
-		img.src = `../../../integration/assets/img/${pokemon.id}.webp`;
+		img.src = `/img/${pokemon.id}.webp`;
 		img.classList.add("pkm_img", "image", "is-128x128");
 
 		figure.appendChild(img);
